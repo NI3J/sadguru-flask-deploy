@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="thought-box">
+  <blockquote>
+    "{{ daily_thought }}"
+    <em>— प पु श्री विद्यानंदजी सागर महाराज बाबा गातेगावकर</em>
+  </blockquote>
+</div>
+
+<h2>🎞️ सद्गुरु भागवत कथा ज्ञानयज्ञ</h2>
+<div class="video-grid">
+  <form action="/verify-otp" method="POST">
+  <input type="text" name="username" placeholder="आपले नाव" required>
+  <input type="tel" name="mobile" placeholder="मोबाईल नंबर" required>
+  <button type="submit">📲 OTP पाठवा</button>
+</form>
+  {% if otp_sent %}
+    <form action="/validate-otp" method="POST">
+      <input type="text" name="otp" placeholder="OTP लिहा" required>
+      <button type="submit">🔓 प्रवेश मिळवा</button>
+    </form>
+  {% endif %}
+{% endblock %}

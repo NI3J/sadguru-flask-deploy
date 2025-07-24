@@ -1,0 +1,293 @@
+/* 🌼 BASE STYLES */
+body {
+  background-color: #f9f5e3;
+  font-family: 'Noto Serif Devanagari', serif;
+  color: #5c3d00;
+  margin: 0;
+  padding: 30px;
+}
+
+h1 {
+  text-align: center;
+  color: #5e4204;
+  margin-bottom: 20px;
+}
+
+/* 🌿 NAVIGATION */
+nav {
+  margin-bottom: 20px;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+nav ul li a {
+  font-family: 'Noto Serif Devanagari', serif;
+  color: #5c3d00;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+nav ul li a:hover {
+  color: #c28800;
+}
+/* 🌌 Top Navigation Dark Theme */
+nav {
+  background-color: #1a1a1a;
+  padding: 12px 30px;
+  display: flex;
+  justify-content: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 25px;
+  margin: 0;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  font-family: 'Noto Serif Devanagari', serif;
+  transition: color 0.3s;
+}
+
+nav ul li a:hover {
+  color: #c28800;
+}
+
+/* 🍔 HAMBURGER MENU */
+.hamburger {
+  font-size: 28px;
+  cursor: pointer;
+  display: none;
+  color: white;
+  padding: 10px;
+}
+
+#nav-links {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  justify-content: center;
+  padding: 0;
+}
+
+/* 📱 RESPONSIVE NAVIGATION */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  #nav-links {
+    flex-direction: column;
+    background-color: #c28800;
+    padding: 10px;
+  }
+}
+
+/* 🧘 CONTACT FORM */
+.contact-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.contact-container form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  background-color: #fff;
+  padding: 20px;
+  margin: 40px auto;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(180, 120, 0, 0.15);
+}
+
+/* 📝 FORM ELEMENTS */
+form label {
+  margin-top: 15px;
+  margin-bottom: 6px;
+  font-weight: bold;
+  color: #5c3d00;
+  font-family: 'Noto Serif Devanagari', serif;
+}
+
+form input,
+form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #d9b673;
+  border-radius: 6px;
+  background-color: #fdfaf0;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+/* ✨ SUBMIT BUTTON */
+form button {
+  background-color: #c28800;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  align-self: flex-start;
+  margin-top: 10px;
+}
+
+form button:hover {
+  background-color: #a06f00;
+}
+
+/* 🔔 FEEDBACK MESSAGE */
+p.message {
+  color: #b33c00;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* 📊 DASHBOARD TABLE */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Noto Serif Devanagari', serif;
+  margin-top: 20px;
+}
+
+th, td {
+  border: 1px solid #d9b673;
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #fff4d4;
+  color: #5c3d00;
+}
+
+tr:nth-child(even) {
+  background-color: #fdfaf0;
+}
+
+/* 📌 STICKY HEADER */
+.sticky-header {
+  position: sticky;
+  top: 0;
+  background-color: #f9f5e3;
+  padding: 10px 20px;
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(180, 120, 0, 0.1);
+  border-bottom: 1px solid #d9b673;
+}
+
+.sticky-header h1,
+.sticky-header p {
+  margin: 0;
+}
+
+.sticky-header .button {
+  margin-top: 10px;
+  display: inline-block;
+}
+
+/* 📤 CSV BUTTON */
+.button {
+  background-color: #c28800;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  font-family: 'Noto Serif Devanagari', serif;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s;
+}
+
+.button:hover {
+  background-color: #a06c00;
+}
+
+/* 📚 WISDOM PAGE */
+/* 🧠 DAILY SADGURU THOUGHT BOX */
+.thought-box {
+  background-color: #fffbe6;
+  border-left: 4px solid #c28800;
+  padding: 20px;
+  margin: 30px auto;
+  max-width: 700px;
+  font-size: 18px;
+  color: #5c3d00;
+  box-shadow: 0 2px 5px rgba(180, 120, 0, 0.1);
+}
+.wisdom-container {
+  max-width: 700px;
+  margin: auto;
+  background-color: #fffbe6;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(180, 120, 0, 0.1);
+}
+
+blockquote {
+  background: #fff4cc;
+  margin: 20px 0;
+  padding: 15px;
+  border-left: 4px solid #c28800;
+  font-size: 18px;
+  color: #5c3d00;
+}
+
+blockquote em {
+  display: block;
+  margin-top: 8px;
+  color: #885200;
+  font-style: italic;
+}
+
+/* 🔍 FILTER DROPDOWN */
+select {
+  font-size: 16px;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #d9b673;
+  background-color: #fff4d4;
+  color: #5c3d00;
+  font-family: 'Noto Serif Devanagari', serif;
+}
+/* 🎞️ Sadguru Video Grid */
+.video-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+  max-width: 800px;
+  margin: 30px auto;
+}
+
+@media (min-width: 768px) {
+  .video-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .video-grid iframe {
+    height: 300px;
+  }
+}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Spiritual Website</title>
+    <meta charset="UTF-8">
+   <meta name="fast2sms" content="cyZR7Febs1b9q00Hai9wo4HH7X5fl9CQ">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spiritual Website</title>
+  <!-- your stylesheets and other tags -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <h1>Welcome to the Spiritual Website</h1>
+    <p>This space is dedicated to inner transformation and conscious living.</p>
+    {% include 'footer.html' %}
+</body>
+</html>
+{% endblock %}

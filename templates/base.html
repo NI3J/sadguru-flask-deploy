@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8">
+  <title>Spiritual Website</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <!-- 🌿 Navigation Bar -->
+  <nav>
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+
+    <ul id="nav-links" class="hidden">
+      <li><a href="/">मुख्य पृष्ठ</a></li>
+      <li><a href="/about">आमच्याविषयी</a></li>
+      <li><a href="/programs">कार्यक्रम</a></li>
+      <li><a href="/bhaktgan">भक्तगण नोंदणी</a></li>
+      <li><a href="/admin/bhaktgan">भक्तगण सूची 📋</a></li>
+      <li><a href="/wisdom">ज्ञान</a></li>
+      <li><a href="/contact">संपर्क</a></li>
+    </ul>
+  </nav>
+
+  <!-- 📋 Page-Specific Content -->
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- 🪷 Footer -->
+  <footer>
+    <p>🌼 २०२५ Spiritual Website • Stay connected. Stay conscious.</p>
+  </footer>
+
+  <!-- 📜 External JS for Hamburger + Filters -->
+  <script src="{{ url_for('static', filename='JS/menu-toggle.js') }}"></script>
+  <script>
+    function filterTableBySeva() {
+      let input = document.getElementById("sevaInput").value.toLowerCase();
+      let rows = document.querySelectorAll("table tbody tr");
+
+      rows.forEach(row => {
+        const seva = row.cells[3].textContent.toLowerCase();
+        row.style.display = seva.includes(input) ? "" : "none";
+      });
+    }
+  </script>
+</body>
+</html>
