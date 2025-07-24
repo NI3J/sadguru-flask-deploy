@@ -1,24 +1,33 @@
 {% extends 'base.html' %}
 
-{% block content %}
-  <div class="thought-box">
-  <blockquote>
-    "{{ daily_thought }}"
-    <em>— प पु श्री विद्यानंदजी सागर महाराज बाबा गातेगावकर</em>
-  </blockquote>
-</div>
+{% block title %}सद्गुरुंचे विचार - Wisdom{% endblock %}
 
-<h2>🎞️ सद्गुरु भागवत कथा ज्ञानयज्ञ</h2>
-<div class="video-grid">
-  <form action="/verify-otp" method="POST">
-  <input type="text" name="username" placeholder="आपले नाव" required>
-  <input type="tel" name="mobile" placeholder="मोबाईल नंबर" required>
-  <button type="submit">📲 OTP पाठवा</button>
-</form>
-  {% if otp_sent %}
-    <form action="/validate-otp" method="POST">
-      <input type="text" name="otp" placeholder="OTP लिहा" required>
-      <button type="submit">🔓 प्रवेश मिळवा</button>
+{% block content %}
+  <h2 class="section-title">🌿 सदगुरुंचे दररोजचे विचार</h2>
+
+  {% for quote in quotes %}
+    <div class="quote-card">
+      <blockquote>
+        <p>"{{ quote[0] }}"</p>
+        <p>प. पु. श्री. विद्यानंदजी सागर महाराज बाबा गातेगांवकर</p>
+
+      </blockquote>
+    </div>
+  {% endfor %}
+
+  <h2>🎞️ सदगुरु भागवत कथा ज्ञानयज्ञ</h2>
+  <div class="video-grid">
+    <form action="/verify-otp" method="POST">
+      <input type="text" name="username" placeholder="आपले नाव" required>
+      <input type="tel" name="mobile" placeholder="मोबाईल नंबर" required>
+      <button type="submit">📲 OTP पाठवा</button>
     </form>
-  {% endif %}
+
+    {% if otp_sent %}
+      <form action="/validate-otp" method="POST">
+        <input type="text" name="otp" placeholder="OTP लिहा" required>
+        <button type="submit">🔓 प्रवेश मिळवा</button>
+      </form>
+    {% endif %}
+  </div>
 {% endblock %}

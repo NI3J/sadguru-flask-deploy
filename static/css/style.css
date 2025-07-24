@@ -291,3 +291,53 @@ select {
     height: 300px;
   }
 }
+/* 📿 Wisdom Page Styling */
+
+blockquote {
+  font-family: 'Georgia', serif;
+  background: #fdf6e3;
+  padding: 15px;
+  border-left: 4px solid #a37525;
+  font-style: italic;
+}
+
+blockquote p {
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #5c3d00;
+}
+/* 📿 Wisdom Access Page Styles */
+
+.access-granted {
+  text-align: center;
+  background-color: #fef9f2;
+  padding: 30px;
+}
+
+.sadguru-img {
+  width: 120px;
+  border-radius: 60px;
+  margin-bottom: 15px;
+}
+
+.blessing {
+  font-size: 1.2em;
+  color: #5c3d00;
+  margin: 10px 0 20px 0;
+}
+
+.sadguru-card blockquote {
+  background: #fff8e7;
+  border-left: 4px solid #c49b34;
+  padding: 15px;
+  font-style: italic;
+}
+
+.next-step .button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #a37525;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+}

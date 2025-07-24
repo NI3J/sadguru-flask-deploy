@@ -1,4 +1,22 @@
-<h2>🙏 स्वागत आहे, {{ username }}!</h2>
-<video width="100%" controls>
-  <source src="{{ url_for('static', filename='videos/sadguru_day1.mp4') }}" type="video/mp4">
-</video>
+{% extends 'base.html' %}
+
+{% block title %}प्रवेश प्राप्त - Wisdom Portal{% endblock %}
+
+{% block content %}
+  <div class="access-granted">
+    <h2>🪔 नमस्कार {{ username }}!</h2>
+    <p class="blessing">तुम्हाला सद्गुरुंच्या ज्ञानयज्ञात प्रवेश मिळाला आहे</p>
+
+    <div class="sadguru-card">
+      <img src="{{ url_for('static', filename='images/sadguru.jpg') }}" alt="Sadguru Maharaj" class="sadguru-img">
+      <blockquote>
+        <p>"जगात सर्वात मोठी शक्ती श्रद्धा आहे."</p>
+        <p>— प. पु. श्री विद्यानंदजी सागर महाराज</p>
+      </blockquote>
+    </div>
+
+    <div class="next-step">
+      <a href="/katha" class="button">📽️ कथा सुरू करा</a>
+    </div>
+  </div>
+{% endblock %}
