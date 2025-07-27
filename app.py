@@ -2,41 +2,53 @@ import os
 import io
 import csv
 import random
+import hashlib
 import requests
 from datetime import date
-from flask import Flask, render_template, request, redirect, flash, session, make_response
+from flask import Flask, render_template, request, redirect, flash, session, make_response, url_for
 from flask_mail import Mail, Message
-import mysql.connector
+from db_config import get_db_connection
+import datetime
+app = Flask(__name__, static_folder='static')
 
-# 🔐 Flask App Setup
+# 🔐 App & Mail Setup
+from dotenv import load_dotenv
+load_dotenv()  
 app = Flask(__name__)
-app.secret_key = os.environ.get('superStrongAndUniqueKey123!@#', 'dev_secret_key')
+app.secret_key = os.environ.get("superStrongAndUniqueKey123!@#", "dev_secret_key")
 
-# 📧 Email Configuration
 app.config.update(
-    MAIL_SERVER='smtp.gmail.com',
+    MAIL_SERVER="smtp.gmail.com",
     MAIL_PORT=587,
     MAIL_USE_TLS=True,
     MAIL_USE_SSL=False,
-    MAIL_USERNAME=os.environ.get('jadhavnitin75@gmail.com'),
-    MAIL_PASSWORD=os.environ.get('ystg xbox peao vpfn')
+    MAIL_USERNAME=os.environ.get("jadhavnitin75@gmail.com"),
+    MAIL_PASSWORD=os.environ.get("fnvd ekzc ooxp roor"),
+    MAIL_DEFAULT_SENDER=os.environ.get("jadhavnitin75@gmail.com")
 )
+
 mail = Mail(app)
+
+# 🔗 DB Config Import
+from db_config import get_db_connection
 
 # 🌼 Home Page
 @app.route('/')
 def home():
     return render_template('index.html')
 
-# 🧘 About Page
 @app.route('/about')
 def about():
-    return render_template('about.html')
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
 
-# 📅 Programs & Events
-@app.route('/programs')
-def programs():
-    return render_template('programs.html')
+    cursor.execute("SELECT * FROM daily_programs ORDER BY date DESC")
+    programs = cursor.fetchall()
+
+    cursor.close()
+    connection.close()
+
+    return render_template('about.html', programs=programs)
 
 # 🙏 Bhaktgan Registration
 @app.route('/bhaktgan', methods=['GET', 'POST'])
@@ -48,15 +60,17 @@ def bhaktgan():
         city = request.form['city']
         seva_interest = request.form['seva_interest']
 
-        conn = mysql.connector.connect(user='spiritual_user', password='Mybabaji@143', database='spiritual_db')
+        conn = get_db_connection()
         cursor = conn.cursor()
-
         cursor.execute("SELECT COUNT(*) FROM bhaktgan WHERE name=%s AND email=%s", (name, email))
+
         if cursor.fetchone()[0] > 0:
             message = "🌸 You're already part of the Bhaktgan."
         else:
-            cursor.execute("INSERT INTO bhaktgan (name, email, phone, seva_interest, city) VALUES (%s, %s, %s, %s, %s)",
-                           (name, email, phone, seva_interest, city))
+            cursor.execute(
+                "INSERT INTO bhaktgan (name, email, phone, seva_interest, city) VALUES (%s, %s, %s, %s, %s)",
+                (name, email, phone, seva_interest, city)
+            )
             conn.commit()
             message = "🕉️ Thank you for joining the Bhaktgan!"
 
@@ -64,7 +78,7 @@ def bhaktgan():
                 subject="🌸 Welcome to Bhaktgan",
                 sender=app.config['MAIL_USERNAME'],
                 recipients=[email],
-                html=render_template('email_templates/bhaktgan_welcome.html', name=name, seva=seva_interest)
+                html=render_template('bhaktgan_welcome.html', name=name, seva=seva_interest)
             )
             mail.send(msg)
 
@@ -73,38 +87,27 @@ def bhaktgan():
 
     return render_template('bhaktgan.html')
 
-
-# 📖 Wisdom Teachings
-from datetime import date
-import hashlib
-
+# 📖 Wisdom Feed
 @app.route('/wisdom')
 def wisdom_feed():
     try:
-        conn = mysql.connector.connect(
-            user='spiritual_user',
-            password='Mybabaji@143',
-            database='spiritual_db'
-        )
+        conn = get_db_connection()
         cursor = conn.cursor()
 
-        # 🔢 Get total number of thoughts
         cursor.execute("SELECT COUNT(*) FROM sadguru_thoughts")
         total = cursor.fetchone()[0]
 
-        # 📅 Use today's date to generate a consistent index
         today = date.today().isoformat()
         index = int(hashlib.sha256(today.encode()).hexdigest(), 16) % total
 
-        # 🎯 Fetch one thought using OFFSET
-        cursor.execute(f"SELECT content FROM sadguru_thoughts LIMIT 1 OFFSET {index}")
+        cursor.execute("SELECT content FROM sadguru_thoughts LIMIT 1 OFFSET %s", (index,))
         thought = cursor.fetchone()[0]
 
         conn.close()
         return render_template('wisdom.html', quotes=[(thought,)])
 
     except Exception as e:
-        print(f"Error loading daily thought: {e}")
+        print("❌ Error loading wisdom:", e)
         return "🧘 Unable to load Sadguru's thought today."
 
 # 🔢 OTP Generator
@@ -185,7 +188,7 @@ def contact():
 @app.route('/admin/bhaktgan')
 def bhaktgan_dashboard():
     seva_filter = request.args.get('seva')
-    conn = mysql.connector.connect(user='spiritual_user', password='Mybabaji@143', database='spiritual_db')
+    conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
 
     if seva_filter:
@@ -200,7 +203,7 @@ def bhaktgan_dashboard():
 # 📁 Export CSV
 @app.route('/admin/bhaktgan/export')
 def export_bhaktgan_csv():
-    conn = mysql.connector.connect(user='spiritual_user', password='Mybabaji@143', database='spiritual_db')
+    conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("SELECT name, email, phone, seva_interest, city, submitted_at FROM bhaktgan")
     rows = cursor.fetchall()
@@ -217,12 +220,12 @@ def export_bhaktgan_csv():
     response.headers["Content-type"] = "text/csv"
     return response
 
-# 🧘 Manage Thoughts
+# 🧘 Thoughts Manager
 @app.route('/admin/thoughts', methods=['GET', 'POST'])
 def manage_thoughts():
     if request.method == 'POST':
         new_thought = request.form['content']
-        conn = mysql.connector.connect(user='spiritual_user', password='Mybabaji@143', database='spiritual_db')
+        conn = get_db_connection()
         cursor = conn.cursor()
         cursor.execute("INSERT INTO sadguru_thoughts (content) VALUES (%s)", (new_thought,))
         conn.commit()
@@ -231,10 +234,9 @@ def manage_thoughts():
         flash("🙏 Thought added successfully.")
     return render_template('admin_thoughts.html')
 
-# 📚 Thought Archive
 @app.route('/wisdom/archive')
 def archive():
-    conn = mysql.connector.connect(user='spiritual_user', password='Mybabaji@143', database='spiritual_db')
+    conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     cursor.execute("SELECT content, added_on FROM sadguru_thoughts ORDER BY added_on DESC")
     thoughts = cursor.fetchall()
@@ -245,6 +247,131 @@ def archive():
 @app.route('/fast2sms_verify.txt')
 def fast2sms_file():
     return app.send_static_file('fast2sms_verify.txt')
+
+# 📽️ Katha Page
+@app.route('/katha')
+def katha():
+    video_path = os.path.join(app.static_folder, 'videos/sadguru_katha.mp4')
+    video_exists = os.path.exists(video_path)
+    return render_template('katha.html', video_exists=video_exists)
+
+
+# 📝 Submit Daily Program
+
+
+
+def normalize(phone):
+    # Clean up phone format (strip spaces, country code, leading zeros)
+    return phone.strip().replace('+91', '').lstrip('0')
+
+from flask import request, session, render_template
+import mysql.connector
+
+@app.route('/admin_dashboard', methods=['GET', 'POST'])
+def admin_dashboard():
+    show_submission_form = False
+
+    try:
+        # Connect to DB
+        connection = get_db_connection()
+        cursor = connection.cursor(dictionary=True)
+
+        # 🔄 Case 1: Form submitted with name and mobile
+        if request.method == 'POST':
+            name = request.form.get('name', '').strip()
+            mobile = normalize(request.form.get('mobile', ''))
+
+            # Query DB for matching admin
+            cursor.execute(
+                "SELECT * FROM authorized_admins WHERE name = %s AND phone = %s",
+                (name, mobile)
+            )
+            admin = cursor.fetchone()
+
+            if admin:
+                # ✅ Set session if valid
+                session['admin_phone'] = mobile
+                session['admin_name'] = name
+                show_submission_form = True
+
+        # 🔄 Case 2: Already in session, revalidate
+        elif 'admin_phone' in session and 'admin_name' in session:
+            cursor.execute(
+                "SELECT * FROM authorized_admins WHERE name = %s AND phone = %s",
+                (session['admin_name'], session['admin_phone'])
+            )
+            admin = cursor.fetchone()
+            show_submission_form = bool(admin)
+
+    except mysql.connector.Error as err:
+        print("❌ DB Error:", err)
+
+    finally:
+        try:
+            cursor.close()
+        except:
+            pass
+        try:
+            connection.close()
+        except:
+            pass
+
+    return render_template("admin_dashboard.html", show_submission_form=show_submission_form)
+
+from flask import render_template
+import datetime
+from collections import defaultdict
+
+@app.route('/programs')
+def programs():
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+
+    try:
+        cursor.execute("SELECT date, content FROM daily_programs ORDER BY date DESC")
+        records = cursor.fetchall()
+    except Exception as err:
+        print("❌ Error fetching programs:", err)
+        records = []
+
+    finally:
+        cursor.close()
+        connection.close()
+
+    # Group programs by date
+    grouped_days = defaultdict(list)
+    for entry in records:
+        grouped_days[entry['date']].append(entry['content'])
+
+    # Prepare list for template
+    days = [{'date': date, 'programs': entries} for date, entries in grouped_days.items()]
+    today = datetime.date.today().strftime('%Y-%m-%d')
+
+    return render_template('program/program.html', days=days, today=today)
+
+@app.route('/submit_program', methods=['POST'])
+def submit_program():
+    date = request.form.get('date')
+    content = request.form.get('content')
+    created_by = session.get('admin_name')  # or session.get('admin_phone')
+
+    try:
+        connection = get_db_connection()
+        cursor = connection.cursor()
+        cursor.execute(
+            "INSERT INTO daily_programs (date, content, created_by) VALUES (%s, %s, %s)",
+            (date, content, created_by)
+        )
+        connection.commit()
+
+    except mysql.connector.Error as err:
+        print("❌ Database error:", err)
+
+    finally:
+        cursor.close()
+        connection.close()
+
+    return redirect(url_for('programs'))  # redirect to the route displaying programs
 
 # 🚀 Launch Server
 if __name__ == '__main__':
