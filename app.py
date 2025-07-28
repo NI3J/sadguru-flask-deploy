@@ -9,12 +9,13 @@ from flask import Flask, render_template, request, redirect, flash, session, mak
 from flask_mail import Mail, Message
 from db_config import get_db_connection
 import datetime
-app = Flask(__name__, static_folder='static')
+app = Flask(__name__, static_folder='static')  # Define it once with static folder
 
-# 🔐 App & Mail Setup
+# Load environment variables
 from dotenv import load_dotenv
-load_dotenv()  
-app = Flask(__name__)
+load_dotenv()
+
+# Secret key setup
 app.secret_key = os.environ.get("superStrongAndUniqueKey123!@#", "dev_secret_key")
 
 app.config.update(
