@@ -13,8 +13,12 @@ app = Flask(__name__, static_folder='static')  # Define it once with static fold
 
 # Load environment variables
 from dotenv import load_dotenv
-load_dotenv()
+load_dotenv(dotenv_path="database.env")
 
+app.config['MYSQL_DATABASE_URI'] = (
+    f"mysql+mysqlconnector://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}"
+    f"@{os.getenv('DB_HOST')}/{os.getenv('DB_NAME')}"
+)
 # Secret key setup
 app.secret_key = os.environ.get("superStrongAndUniqueKey123!@#", "dev_secret_key")
 
