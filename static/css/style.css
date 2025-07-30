@@ -1,4 +1,4 @@
-/* 🌼 BASE STYLES */
+/* 🌼 BASE SETUP */
 body {
   background: radial-gradient(circle at top left, #fffbe6, #f9f5e3);
   font-family: 'Tiro Devanagari Marathi', serif;
@@ -7,22 +7,22 @@ body {
   padding: 30px;
 }
 
-/* ✨ Fade-in animation */
-.fade-in {
-  animation: fadeIn 1.2s ease forwards;
-  opacity: 0;
-}
-@keyframes fadeIn {
-  to { opacity: 1; }
-}
-
-/* 🔱 HEADER STYLING */
+/* ✨ UNIVERSAL TEXT */
 h1, h2 {
   text-align: center;
   color: #5e4204;
   margin-bottom: 20px;
-  font-family: 'Tiro Devanagari Marathi', serif;
   text-shadow: 0 1px 1px #ffe8b0;
+}
+
+/* 🎭 ANIMATIONS */
+.fade-in {
+  animation: fadeIn 1.2s ease forwards;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
 }
 
 /* 🌿 NAVIGATION BAR */
@@ -50,7 +50,6 @@ nav ul li a {
   color: white;
   text-decoration: none;
   font-weight: 500;
-  font-family: 'Tiro Devanagari Marathi', serif;
   transition: color 0.3s ease;
 }
 
@@ -59,7 +58,7 @@ nav ul li a:hover {
   text-shadow: 0 0 5px #ffd288;
 }
 
-/* 🍔 RESPONSIVE MENU */
+/* 🍔 MOBILE MENU */
 .hamburger {
   font-size: 28px;
   cursor: pointer;
@@ -80,7 +79,7 @@ nav ul li a:hover {
   }
 }
 
-/* 🧘 FORM CONTAINER */
+/* 🧘 FORM CONTAINERS */
 .contact-container form,
 .dashboard-container {
   max-width: 720px;
@@ -92,35 +91,36 @@ nav ul li a:hover {
   padding: 30px;
 }
 
-/* 📝 FORM FIELDS */
-form label {
-  font-weight: bold;
-  color: #5c3d00;
-  margin-bottom: 6px;
-  font-family: 'Tiro Devanagari Marathi', serif;
+/* 🔐 OTP FORM (Compact Version) */
+.otp-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px;
+  gap: 10px;
 }
 
-form input,
-form textarea {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  font-size: 16px;
+.otp-form input[type="text"],
+.otp-form input[type="tel"] {
+  height: 28px;
+  max-width: 240px;
+  font-size: 14px;
+  padding: 6px 10px;
+  margin-bottom: 6px;
   background-color: #fdfaf0;
   border: 1px solid #d9b673;
-  border-radius: 6px;
-  box-shadow: inset 0 1px 3px rgba(200, 160, 80, 0.15);
+  border-radius: 4px;
+  box-shadow: inset 0 1px 2px rgba(200, 160, 80, 0.15);
 }
 
-/* 📤 SUBMIT BUTTON */
+/* 📤 BUTTONS */
 form button,
 .button {
   background-color: #c28800;
   color: white;
-  padding: 12px 20px;
-  border-radius: 8px;
+  padding: 10px 16px;
+  border-radius: 6px;
   font-weight: bold;
-  font-family: 'Tiro Devanagari Marathi', serif;
   box-shadow: 0 0 5px rgba(194, 136, 0, 0.2);
   cursor: pointer;
   transition: all 0.3s ease;
@@ -133,12 +133,11 @@ form button:hover,
   transform: scale(1.05);
 }
 
-/* 📊 TABLE STYLING */
+/* 📊 TABLES */
 table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
-  font-family: 'Tiro Devanagari Marathi', serif;
 }
 
 th, td {
@@ -157,7 +156,7 @@ tr:nth-child(even) {
   background-color: #fdfaf0;
 }
 
-/* 🌸 SADGURU THOUGHT BOX */
+/* 🌸 QUOTE BOXES */
 .thought-box,
 .wisdom-container,
 blockquote {
@@ -170,14 +169,14 @@ blockquote {
   box-shadow: 0 2px 8px rgba(180, 120, 0, 0.1);
 }
 
-/* 🎞️ VIDEO ENHANCEMENT */
+/* 🎞️ VIDEO EMBEDS */
 .video-grid iframe {
   border: 2px solid #d9b673;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(180, 120, 0, 0.15);
 }
 
-/* 📿 ACCESS PAGE */
+/* 📿 ACCESS PAGE STYLING */
 .access-granted {
   text-align: center;
   background-color: #fef9f2;
