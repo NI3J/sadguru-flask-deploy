@@ -114,7 +114,7 @@ CREATE TABLE `daily_programs` (
   `content` text COLLATE utf8mb4_unicode_ci,
   `created_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -123,7 +123,7 @@ CREATE TABLE `daily_programs` (
 
 LOCK TABLES `daily_programs` WRITE;
 /*!40000 ALTER TABLE `daily_programs` DISABLE KEYS */;
-INSERT INTO `daily_programs` VALUES (7,'2025-07-27','आज बाबा बद्रिनाथ धामचे दर्शन करुन परत लातुरला आले त्यानिमित्त आज रात्री ०७ वाजता बोपला येथे स्नेह भोजनाचा कार्यक्रम आयोजीत केला आहे.','Nitin'),(8,'2025-07-28','आज श्रावण महिण्यातला पहीला सोमवार आसल्यामुळे बाबा महादेवाची भक्ती करीत आहेत.','Nitin');
+INSERT INTO `daily_programs` VALUES (7,'2025-07-27','आज बाबा बद्रिनाथ धामचे दर्शन करुन परत लातुरला आले त्यानिमित्त आज रात्री ०७ वाजता बोपला येथे स्नेह भोजनाचा कार्यक्रम आयोजीत केला आहे.','Nitin'),(8,'2025-07-28','आज श्रावण महिण्यातला पहीला सोमवार आसल्यामुळे बाबा महादेवाची भक्ती करीत आहेत.','Nitin'),(9,'2025-07-30','आज प.पु.बाबजी आश्रमात आहेत ज्या भक्तांना दर्शन घ्यायचे आहे त्यांनी यावे.','Nitin'),(10,'2025-07-30','आज काही कार्यक्रम नाही','Nitin');
 /*!40000 ALTER TABLE `daily_programs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -186,4 +186,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-07-29  9:55:56
+-- Dump completed on 2025-07-30 12:24:45

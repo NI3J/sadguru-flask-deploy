@@ -1,27 +1,44 @@
+
+# Core Imports
 import os
 import io
 import csv
 import random
 import hashlib
 import requests
-from datetime import date
-from flask import Flask, render_template, request, redirect, flash, session, make_response, url_for
-from flask_mail import Mail, Message
-from db_config import get_db_connection
 import datetime
-app = Flask(__name__, static_folder='static')  # Define it once with static folder
-import mysql.connector
-from dotenv import load_dotenv
-import os
+from datetime import date
 
+# Flask Modules
+from flask import (
+    Flask, render_template, request, redirect,
+    flash, session, make_response, url_for
+)
+from flask_mail import Mail, Message
+
+# Custom Modules
+from db_config import get_db_connection
+
+# Environment Setup
 from dotenv import load_dotenv
 load_dotenv("database.env")
 
+# App Initialization
+app = Flask(__name__, static_folder='static')
+
+# Debug: Check DB connection URL
 DATABASE_URL = os.getenv("DATABASE_URL")
 print("Loaded DATABASE_URL:", DATABASE_URL)
 
-# Secret key setup
-app.secret_key = os.environ.get("superStrongAndUniqueKey123!@#", "dev_secret_key")
+# External Libraries
+import mysql.connector  # Consider using only in db_config if possible
+try:
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT COUNT(*) FROM sadguru_thoughts")  # Or any table
+    print("DB connected — thoughts loaded:", cur.fetchone()[0])
+except Exception as e:
+    print("🚨 DB connection failed:", e)
 
 app.config.update(
     MAIL_SERVER="smtp.gmail.com",
