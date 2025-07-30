@@ -21,7 +21,25 @@
     h2 {
       text-align: center;
       color: #4B0082;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
+    }
+    .back-button {
+      display: block;
+      margin: 0 auto 30px auto;
+      background-color: #c28800;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+    .back-button:hover {
+      background-color: #a06f00;
     }
     .day-block {
       margin-bottom: 40px;
@@ -50,6 +68,9 @@
 <body>
   <div class="container">
     <h2>📿 Sadguru Baba चे दैनिक कार्यक्रम</h2>
+
+    <!-- 🔙 Back Button -->
+    <a href="/" class="back-button">⬅️ मुख्य पृष्ठावर जा</a>
 
     {% for day in days %}
       <div class="day-block">
