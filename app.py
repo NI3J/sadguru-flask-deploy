@@ -1,37 +1,35 @@
 
-# Core Imports
-import os
-import io
-import csv
-import random
-import hashlib
-import requests
-import datetime
+# 🌐 Core Imports
+import os, io, csv, random, hashlib, requests, datetime
 from datetime import date
 
-# Flask Modules
+# 🔥 Flask Modules
 from flask import (
     Flask, render_template, request, redirect,
     flash, session, make_response, url_for
 )
 from flask_mail import Mail, Message
 
-# Custom Modules
+# ⚙️ Custom Module
 from db_config import get_db_connection
 
-# Environment Setup
+# 📦 Environment Setup
 from dotenv import load_dotenv
-app = Flask(__name__)
-load_dotenv()
-app.secret_key = os.environ.get("SECRET_KEY")
-load_dotenv("database.env")
+load_dotenv()  # Load default .env
+load_dotenv("database.env")  # Load additional DB env
 
-# App Initialization
+# 🚀 App Initialization
 app = Flask(__name__, static_folder='static')
 
-# Debug: Check DB connection URL
-DATABASE_URL = os.getenv("DATABASE_URL")
-print("Loaded DATABASE_URL:", DATABASE_URL)
+# 🔐 Configurations
+app.secret_key = os.getenv("SECRET_KEY")
+app.config['DATABASE_URL'] = os.getenv("DATABASE_URL")
+app.config['MAIL_DEFAULT_SENDER'] = os.getenv("MAIL_DEFAULT_SENDER")  # Needed for Flask-Mail
+
+# 🧠 Debugging Aid (can be removed in production)
+print("Loaded DATABASE_URL:", app.config['DATABASE_URL'])
+print("Loaded SECRET_KEY:", app.secret_key)
+print("Loaded MAIL_DEFAULT_SENDER:", app.config['MAIL_DEFAULT_SENDER'])
 
 # External Libraries
 import mysql.connector  # Consider using only in db_config if possible
