@@ -21,15 +21,13 @@ from db_config import get_db_connection
 
 # Environment Setup
 from dotenv import load_dotenv
+app = Flask(__name__)
+load_dotenv()
+app.secret_key = os.environ.get("SECRET_KEY")
 load_dotenv("database.env")
 
 # App Initialization
 app = Flask(__name__, static_folder='static')
-
-# Defining secrit key
-app = Flask(__name__)
-app.secret_key = os.environ.get("IMbOR3dj--u200QjEncUZ1z5I5nDCpognKiSbYrue3g")
-
 
 # Debug: Check DB connection URL
 DATABASE_URL = os.getenv("DATABASE_URL")
