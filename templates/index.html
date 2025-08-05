@@ -91,6 +91,25 @@
       <div class="welcome-text">ऱाधाकृष्ण आश्रम गातेगावच्या अध्यात्मीक वेब साइटवर आपले स्वागत आहे</div>
       <img src="{{ url_for('static', filename='images/mahadev.jpg') }}" alt="Mahadev" class="mahadev-img">
       <p>हे स्थान अंतर्गत परिवर्तन आणि जागरूक जीवनासाठी समर्पित आहे.</p>
+      
+      <!-- Audio Player Example -->
+      <div style="background: rgba(255, 255, 255, 0.9); padding: 20px; border-radius: 10px; margin: 20px auto; max-width: 600px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        <h3 style="color: #5c3d00; text-align: center; margin-bottom: 15px;">🎵 आध्यात्मिक संगीत</h3>
+        <audio controls style="width: 100%; margin-bottom: 10px;">
+          <source src="{{ url_for('static', filename='audio/sample-bhajan.mp3') }}" type="audio/mpeg">
+          <source src="{{ url_for('static', filename='audio/sample-bhajan.ogg') }}" type="audio/ogg">
+          Your browser does not support the audio element.
+        </audio>
+        <p style="text-align: center; margin: 5px 0; font-size: 0.9em; color: #666;">
+          🎧 भजन सुनने के लिए प्ले बटन दबाएं
+        </p>
+        <p style="text-align: center; margin: 0;">
+          <a href="/audio-examples" style="color: #c28800; text-decoration: none; font-weight: bold;">
+            📚 More Audio Examples →
+          </a>
+        </p>
+      </div>
+      
       <div class="divider"></div>
     </div>
 

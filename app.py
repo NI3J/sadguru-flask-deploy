@@ -397,6 +397,16 @@ def submit_program():
 
     return redirect(url_for('programs'))  # redirect to the route displaying programs
 
+@app.route('/audio-examples')
+def audio_examples():
+    """Display audio examples and instructions for adding MP3 files"""
+    return render_template('audio_examples.html')
+
+@app.route('/advanced-audio')
+def advanced_audio():
+    """Display advanced audio player demo and implementation guide"""
+    return render_template('advanced_audio.html')
+
 # 🚀 Launch Server
 if __name__ == '__main__':
     print("🕉️ Spiritual Flask app launching...")
