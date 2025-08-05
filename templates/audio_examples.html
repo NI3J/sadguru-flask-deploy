@@ -1,0 +1,302 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <title>Audio Examples - Spiritual Website</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Fonts & Styling -->
+    <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <style>
+        body {
+            font-family: 'Tiro Devanagari Marathi', serif;
+            background: radial-gradient(circle, #fffaf0, #f5e9d6);
+            padding: 20px;
+        }
+        
+        .audio-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .audio-section h2 {
+            color: #5c3d00;
+            border-bottom: 2px solid #c28800;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        /* Custom Audio Player Styling */
+        .custom-audio-player {
+            background: linear-gradient(135deg, #d4af37, #ffd700);
+            border-radius: 25px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        
+        .custom-audio-player audio {
+            width: 100%;
+            height: 40px;
+        }
+        
+        /* Audio Controls Styling */
+        audio::-webkit-media-controls-panel {
+            background-color: rgba(255, 215, 0, 0.8);
+        }
+        
+        .audio-info {
+            background: #fff8dc;
+            padding: 10px;
+            border-left: 4px solid #c28800;
+            margin: 10px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .playlist {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .playlist li {
+            background: #fff;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 3px solid #c28800;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .playlist li:hover {
+            background: #f0f8ff;
+        }
+        
+        .playlist li.active {
+            background: #ffe4b5;
+            border-left-color: #ff8c00;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .audio-section {
+                margin: 15px 0;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {% include 'navbar.html' %}
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #5c3d00; margin-bottom: 30px;">🎵 Audio Examples - आध्यात्मिक संगीत</h1>
+        
+        <!-- Method 1: Basic HTML5 Audio Player -->
+        <div class="audio-section">
+            <h2>1. Basic HTML5 Audio Player</h2>
+            <div class="audio-info">
+                <strong>सरल ऑडिओ प्लेयर:</strong> बेसिक कंट्रोल्स के साथ
+            </div>
+            
+            <!-- Basic audio player with controls -->
+            <audio controls>
+                <source src="{{ url_for('static', filename='audio/sample-bhajan.mp3') }}" type="audio/mpeg">
+                <source src="{{ url_for('static', filename='audio/sample-bhajan.ogg') }}" type="audio/ogg">
+                Your browser does not support the audio element.
+            </audio>
+            
+            <p><em>Code example:</em></p>
+            <pre><code>&lt;audio controls&gt;
+    &lt;source src="{{ url_for('static', filename='audio/your-file.mp3') }}" type="audio/mpeg"&gt;
+    Your browser does not support the audio element.
+&lt;/audio&gt;</code></pre>
+        </div>
+        
+        <!-- Method 2: Custom Styled Audio Player -->
+        <div class="audio-section">
+            <h2>2. Custom Styled Audio Player</h2>
+            <div class="audio-info">
+                <strong>कस्टम स्टाइल प्लेयर:</strong> सुंदर डिज़ाइन के साथ
+            </div>
+            
+            <div class="custom-audio-player">
+                <h4>🕉️ मंत्र जाप - Om Namah Shivaya</h4>
+                <audio controls preload="metadata">
+                    <source src="{{ url_for('static', filename='audio/om-namah-shivaya.mp3') }}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </div>
+        
+        <!-- Method 3: Auto-playing Background Audio (Use Carefully) -->
+        <div class="audio-section">
+            <h2>3. Background Audio with Loop</h2>
+            <div class="audio-info">
+                <strong>बैकग्राउंड संगीत:</strong> लूप के साथ (User interaction required)
+            </div>
+            
+            <button onclick="playBackgroundMusic()" style="padding: 10px 20px; background: #c28800; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                🎵 Start Background Music
+            </button>
+            <button onclick="stopBackgroundMusic()" style="padding: 10px 20px; background: #8b4513; color: white; border: none; border-radius: 5px; cursor: pointer; margin-left: 10px;">
+                ⏹️ Stop Music
+            </button>
+            
+            <audio id="backgroundAudio" loop preload="auto" style="display: none;">
+                <source src="{{ url_for('static', filename='audio/temple-bells.mp3') }}" type="audio/mpeg">
+            </audio>
+        </div>
+        
+        <!-- Method 4: Playlist with JavaScript -->
+        <div class="audio-section">
+            <h2>4. Interactive Playlist</h2>
+            <div class="audio-info">
+                <strong>प्लेलिस्ट:</strong> JavaScript के साथ इंटरैक्टिव
+            </div>
+            
+            <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+                <div style="flex: 1; min-width: 300px;">
+                    <h4>Current Playing:</h4>
+                    <div id="currentSong" style="background: #ffe4b5; padding: 10px; border-radius: 5px; margin-bottom: 10px;">
+                        Select a song from playlist
+                    </div>
+                    <audio id="playlistAudio" controls style="width: 100%;">
+                        <source id="audioSource" src="" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+                
+                <div style="flex: 1; min-width: 300px;">
+                    <h4>Playlist:</h4>
+                    <ul class="playlist" id="playlist">
+                        <li data-src="{{ url_for('static', filename='audio/bhajan1.mp3') }}" data-title="गणेश आरती">🐘 गणेश आरती</li>
+                        <li data-src="{{ url_for('static', filename='audio/bhajan2.mp3') }}" data-title="शिव भजन">🔱 शिव भजन</li>
+                        <li data-src="{{ url_for('static', filename='audio/bhajan3.mp3') }}" data-title="हनुमान चालीसा">🐒 हनुमान चालीसा</li>
+                        <li data-src="{{ url_for('static', filename='audio/bhajan4.mp3') }}" data-title="कृष्ण भजन">🦚 कृष्ण भजन</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Method 5: Audio with Download Option -->
+        <div class="audio-section">
+            <h2>5. Audio with Download Option</h2>
+            <div class="audio-info">
+                <strong>डाउनलोड विकल्प:</strong> यूजर्स फाइल डाउनलोड कर सकते हैं
+            </div>
+            
+            <div style="background: #f0f8ff; padding: 15px; border-radius: 8px;">
+                <h4>📿 Maha Mantra</h4>
+                <audio controls preload="metadata" style="width: 100%; margin: 10px 0;">
+                    <source src="{{ url_for('static', filename='audio/maha-mantra.mp3') }}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                <a href="{{ url_for('static', filename='audio/maha-mantra.mp3') }}" 
+                   download="maha-mantra.mp3" 
+                   style="display: inline-block; padding: 8px 16px; background: #4CAF50; color: white; text-decoration: none; border-radius: 4px; margin-top: 10px;">
+                    ⬇️ Download MP3
+                </a>
+            </div>
+        </div>
+        
+        <!-- Instructions Section -->
+        <div class="audio-section">
+            <h2>📋 How to Add Your MP3 Files</h2>
+            <div class="audio-info">
+                <ol>
+                    <li><strong>Upload your MP3 files</strong> to the <code>/static/audio/</code> directory</li>
+                    <li><strong>Use Flask's url_for function</strong> to link to your audio files:
+                        <br><code>{{ url_for('static', filename='audio/your-file.mp3') }}</code>
+                    </li>
+                    <li><strong>Add audio element</strong> in your HTML template</li>
+                    <li><strong>Customize styling</strong> using CSS as shown above</li>
+                </ol>
+            </div>
+            
+            <h3>Supported Audio Formats:</h3>
+            <ul>
+                <li><strong>MP3</strong> - Most widely supported</li>
+                <li><strong>OGG</strong> - Open source alternative</li>
+                <li><strong>WAV</strong> - Uncompressed, larger files</li>
+                <li><strong>AAC</strong> - Good compression, Apple preferred</li>
+            </ul>
+            
+            <h3>Best Practices:</h3>
+            <ul>
+                <li>Always include <code>controls</code> attribute for user control</li>
+                <li>Use <code>preload="metadata"</code> for faster loading</li>
+                <li>Provide multiple format sources for browser compatibility</li>
+                <li>Consider file size - compress audio for web delivery</li>
+                <li>Be mindful of autoplay policies - most browsers block autoplay</li>
+            </ul>
+        </div>
+    </div>
+    
+    {% include 'footer.html' %}
+    
+    <script>
+        // Background Music Controls
+        let backgroundAudio = document.getElementById('backgroundAudio');
+        
+        function playBackgroundMusic() {
+            backgroundAudio.play().catch(e => {
+                alert('Please click on the page first to enable audio autoplay.');
+            });
+        }
+        
+        function stopBackgroundMusic() {
+            backgroundAudio.pause();
+            backgroundAudio.currentTime = 0;
+        }
+        
+        // Playlist Functionality
+        const playlist = document.getElementById('playlist');
+        const playlistAudio = document.getElementById('playlistAudio');
+        const audioSource = document.getElementById('audioSource');
+        const currentSong = document.getElementById('currentSong');
+        
+        playlist.addEventListener('click', function(e) {
+            if (e.target.tagName === 'LI') {
+                // Remove active class from all items
+                playlist.querySelectorAll('li').forEach(li => li.classList.remove('active'));
+                
+                // Add active class to clicked item
+                e.target.classList.add('active');
+                
+                // Update audio source
+                const src = e.target.getAttribute('data-src');
+                const title = e.target.getAttribute('data-title');
+                
+                audioSource.src = src;
+                playlistAudio.load();
+                currentSong.textContent = title;
+                
+                // Auto play (might be blocked by browser)
+                playlistAudio.play().catch(e => {
+                    console.log('Autoplay prevented. User interaction required.');
+                });
+            }
+        });
+        
+        // Auto-advance to next song when current ends
+        playlistAudio.addEventListener('ended', function() {
+            const activeItem = playlist.querySelector('li.active');
+            const nextItem = activeItem ? activeItem.nextElementSibling : playlist.firstElementChild;
+            
+            if (nextItem) {
+                nextItem.click();
+            }
+        });
+    </script>
+</body>
+</html>
+{% endblock %}

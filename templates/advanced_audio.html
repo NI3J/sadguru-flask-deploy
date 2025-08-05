@@ -1,0 +1,332 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <title>Advanced Audio Player - Spiritual Website</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Fonts & Styling -->
+    <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <style>
+        body {
+            font-family: 'Tiro Devanagari Marathi', serif;
+            background: radial-gradient(circle, #fffaf0, #f5e9d6);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .section {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .section h2 {
+            color: #5c3d00;
+            border-bottom: 2px solid #c28800;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        pre {
+            background: #f8f8f8;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border-left: 4px solid #c28800;
+        }
+        
+        code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        .demo-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+        
+        .demo-btn {
+            padding: 8px 16px;
+            background: #c28800;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        
+        .demo-btn:hover {
+            background: #a67600;
+        }
+    </style>
+</head>
+
+<body>
+    {% include 'navbar.html' %}
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #5c3d00; margin-bottom: 30px;">
+            🎵 Advanced Audio Player Demo
+        </h1>
+        
+        <!-- Advanced Player Instance -->
+        <div class="section">
+            <h2>🕉️ Spiritual Music Player</h2>
+            <div id="spiritualPlayer"></div>
+            
+            <div class="demo-buttons">
+                <button class="demo-btn" onclick="loadSamplePlaylist()">Load Sample Playlist</button>
+                <button class="demo-btn" onclick="addRandomTrack()">Add Random Track</button>
+                <button class="demo-btn" onclick="clearPlaylist()">Clear Playlist</button>
+            </div>
+        </div>
+        
+        <!-- Implementation Guide -->
+        <div class="section">
+            <h2>📋 How to Implement</h2>
+            
+            <h3>1. Include the JavaScript file:</h3>
+            <pre><code>&lt;script src="{{ url_for('static', filename='JS/audio-player.js') }}"&gt;&lt;/script&gt;</code></pre>
+            
+            <h3>2. Create a container in your HTML:</h3>
+            <pre><code>&lt;div id="myAudioPlayer"&gt;&lt;/div&gt;</code></pre>
+            
+            <h3>3. Initialize the player:</h3>
+            <pre><code>// Create player instance
+const player = new SpiritualAudioPlayer('myAudioPlayer', {
+    volume: 0.8,
+    autoplay: false,
+    theme: 'spiritual'
+});
+
+// Load playlist
+player.loadPlaylist([
+    {
+        title: 'गणेश आरती',
+        artist: 'Traditional',
+        src: '{{ url_for("static", filename="audio/ganesh-aarti.mp3") }}',
+        duration: '3:45'
+    },
+    {
+        title: 'शिव भजन',
+        artist: 'Spiritual Singer',
+        src: '{{ url_for("static", filename="audio/shiv-bhajan.mp3") }}',
+        duration: '4:20'
+    }
+]);</code></pre>
+            
+            <h3>4. Player Methods:</h3>
+            <pre><code>// Control playback
+player.play();
+player.pause();
+player.nextTrack();
+player.previousTrack();
+
+// Manage playlist
+player.addTrack({
+    title: 'New Track',
+    src: 'path/to/audio.mp3'
+});
+player.removeTrack(0);  // Remove first track
+
+// Settings
+player.setVolume(0.5);  // 50% volume
+player.toggleShuffle();
+player.toggleRepeat();</code></pre>
+        </div>
+        
+        <!-- Track Format Guide -->
+        <div class="section">
+            <h2>🎼 Track Format</h2>
+            <p>Each track object should have the following structure:</p>
+            
+            <pre><code>{
+    title: 'Track Name',        // Required: Display name
+    artist: 'Artist Name',      // Optional: Artist/composer
+    src: 'path/to/file.mp3',   // Required: Audio file URL
+    duration: '3:45',          // Optional: Duration string
+    albumArt: 'path/to/art.jpg' // Optional: Album artwork
+}</code></pre>
+        </div>
+        
+        <!-- Features List -->
+        <div class="section">
+            <h2>✨ Features</h2>
+            <ul style="line-height: 1.8;">
+                <li>🎵 <strong>Playlist Management</strong> - Add, remove, reorder tracks</li>
+                <li>🔀 <strong>Shuffle & Repeat</strong> - Randomize playback or loop tracks</li>
+                <li>📊 <strong>Progress Bar</strong> - Visual progress with click-to-seek</li>
+                <li>🔊 <strong>Volume Control</strong> - Adjustable volume with visual feedback</li>
+                <li>⏯️ <strong>Standard Controls</strong> - Play, pause, next, previous</li>
+                <li>📱 <strong>Responsive Design</strong> - Works on all device sizes</li>
+                <li>🎨 <strong>Spiritual Theme</strong> - Matches your website's aesthetic</li>
+                <li>🚫 <strong>Error Handling</strong> - Graceful handling of loading errors</li>
+                <li>⚡ <strong>Lightweight</strong> - Pure JavaScript, no dependencies</li>
+            </ul>
+        </div>
+        
+        <!-- Browser Compatibility -->
+        <div class="section">
+            <h2>🌐 Browser Support</h2>
+            <p>The audio player works with all modern browsers that support:</p>
+            <ul>
+                <li>HTML5 Audio API</li>
+                <li>ES6 Classes</li>
+                <li>CSS Grid and Flexbox</li>
+            </ul>
+            
+            <p><strong>Supported Browsers:</strong></p>
+            <ul>
+                <li>Chrome 60+</li>
+                <li>Firefox 55+</li>
+                <li>Safari 11+</li>
+                <li>Edge 79+</li>
+                <li>Opera 47+</li>
+                <li>Mobile browsers (iOS Safari, Chrome Mobile)</li>
+            </ul>
+        </div>
+        
+        <!-- Quick Start Templates -->
+        <div class="section">
+            <h2>🚀 Quick Start Templates</h2>
+            
+            <h3>Simple Implementation:</h3>
+            <pre><code>&lt;!-- In your HTML --&gt;
+&lt;div id="simplePlayer"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+const player = new SpiritualAudioPlayer('simplePlayer');
+player.loadPlaylist([
+    {
+        title: 'मंत्र जाप',
+        src: '{{ url_for("static", filename="audio/mantra.mp3") }}'
+    }
+]);
+&lt;/script&gt;</code></pre>
+            
+            <h3>Advanced Implementation:</h3>
+            <pre><code>&lt;script&gt;
+const advancedPlayer = new SpiritualAudioPlayer('advancedPlayer', {
+    volume: 0.7,
+    autoplay: false,
+    shuffle: false,
+    theme: 'spiritual'
+});
+
+// Load from server data
+fetch('/api/spiritual-tracks')
+    .then(response =&gt; response.json())
+    .then(tracks =&gt; {
+        advancedPlayer.loadPlaylist(tracks);
+    });
+
+// Add event listeners
+advancedPlayer.audio.addEventListener('play', () =&gt; {
+    console.log('Playback started');
+});
+&lt;/script&gt;</code></pre>
+        </div>
+    </div>
+    
+    {% include 'footer.html' %}
+    
+    <!-- Include the audio player script -->
+    <script src="{{ url_for('static', filename='JS/audio-player.js') }}"></script>
+    
+    <script>
+        // Initialize the demo player
+        let spiritualPlayer;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            spiritualPlayer = new SpiritualAudioPlayer('spiritualPlayer', {
+                volume: 0.8,
+                autoplay: false,
+                theme: 'spiritual'
+            });
+        });
+        
+        // Demo functions
+        function loadSamplePlaylist() {
+            const sampleTracks = [
+                {
+                    title: 'गणेश आरती',
+                    artist: 'Traditional',
+                    src: '{{ url_for("static", filename="audio/ganesh-aarti.mp3") }}',
+                    duration: '3:45'
+                },
+                {
+                    title: 'शिव भजन',
+                    artist: 'Devotional',
+                    src: '{{ url_for("static", filename="audio/shiv-bhajan.mp3") }}',
+                    duration: '4:20'
+                },
+                {
+                    title: 'हनुमान चालीसा',
+                    artist: 'Classical',
+                    src: '{{ url_for("static", filename="audio/hanuman-chalisa.mp3") }}',
+                    duration: '8:15'
+                },
+                {
+                    title: 'कृष्ण भजन',
+                    artist: 'Melodious',
+                    src: '{{ url_for("static", filename="audio/krishna-bhajan.mp3") }}',
+                    duration: '5:30'
+                },
+                {
+                    title: 'ॐ नमः शिवाय',
+                    artist: 'Mantra',
+                    src: '{{ url_for("static", filename="audio/om-namah-shivaya.mp3") }}',
+                    duration: '6:00'
+                }
+            ];
+            
+            spiritualPlayer.loadPlaylist(sampleTracks);
+        }
+        
+        function addRandomTrack() {
+            const randomTracks = [
+                {
+                    title: 'गायत्री मंत्र',
+                    artist: 'Vedic',
+                    src: '{{ url_for("static", filename="audio/gayatri-mantra.mp3") }}',
+                    duration: '3:30'
+                },
+                {
+                    title: 'महामृत्युंजय मंत्र',
+                    artist: 'Healing',
+                    src: '{{ url_for("static", filename="audio/mahamrityunjaya.mp3") }}',
+                    duration: '4:45'
+                },
+                {
+                    title: 'दुर्गा स्तुति',
+                    artist: 'Divine',
+                    src: '{{ url_for("static", filename="audio/durga-stuti.mp3") }}',
+                    duration: '5:15'
+                }
+            ];
+            
+            const randomTrack = randomTracks[Math.floor(Math.random() * randomTracks.length)];
+            spiritualPlayer.addTrack(randomTrack);
+        }
+        
+        function clearPlaylist() {
+            spiritualPlayer.loadPlaylist([]);
+        }
+    </script>
+</body>
+</html>
+{% endblock %}
