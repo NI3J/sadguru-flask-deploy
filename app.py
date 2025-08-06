@@ -1,6 +1,18 @@
+<<<<<<< HEAD
 
 # 🌐 Core Imports
 import os, io, csv, random, hashlib, requests, datetime
+=======
+ 
+# Core Imports
+import os
+import io
+import csv
+import random
+import hashlib
+import requests
+import datetime
+>>>>>>> eb348f5 (Add new files before rebase)
 from datetime import date
 
 # 🔥 Flask Modules
@@ -15,6 +27,7 @@ from db_config import get_db_connection
 
 # 📦 Environment Setup
 from dotenv import load_dotenv
+<<<<<<< HEAD
 load_dotenv()  # Load default .env
 load_dotenv("database.env")  # Load additional DB env
 
@@ -30,28 +43,36 @@ app.config['MAIL_DEFAULT_SENDER'] = os.getenv("MAIL_DEFAULT_SENDER")  # Needed f
 print("Loaded DATABASE_URL:", app.config['DATABASE_URL'])
 print("Loaded SECRET_KEY:", app.secret_key)
 print("Loaded MAIL_DEFAULT_SENDER:", app.config['MAIL_DEFAULT_SENDER'])
+=======
+
+# Initialize App with Static Folder
+app = Flask(__name__, static_folder='static')
+
+# Load .env Files
+load_dotenv()
+load_dotenv("database.env")
+
+# Set Configurations
+app.secret_key = os.environ.get("SECRET_KEY")
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+>>>>>>> eb348f5 (Add new files before rebase)
 
 # External Libraries
 import mysql.connector  # Consider using only in db_config if possible
-try:
-    conn = get_db_connection()
-    cur = conn.cursor()
-    cur.execute("SELECT COUNT(*) FROM sadguru_thoughts")  # Or any table
-    print("DB connected — thoughts loaded:", cur.fetchone()[0])
-except Exception as e:
-    print("🚨 DB connection failed:", e)
 
-app.config.update(
-    MAIL_SERVER="smtp.gmail.com",
-    MAIL_PORT=587,
-    MAIL_USE_TLS=True,
-    MAIL_USE_SSL=False,
-    MAIL_USERNAME=os.environ.get("jadhavnitin75@gmail.com"),
-    MAIL_PASSWORD=os.environ.get("fnvd ekzc ooxp roor"),
-    MAIL_DEFAULT_SENDER=os.environ.get("jadhavnitin75@gmail.com")
-)
+app = Flask(__name__)
+
+# 🔧 Configuration for Gmail SMTP
+app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
+app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT'))  # Ensure it's an integer
+app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS') == 'True'
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER')
 
 mail = Mail(app)
+
 
 # 🔗 DB Config Import
 from db_config import get_db_connection
@@ -75,8 +96,12 @@ def about():
     return render_template('about.html', programs=programs)
 
 # 🙏 Bhaktgan Registration
+
 @app.route('/bhaktgan', methods=['GET', 'POST'])
 def bhaktgan():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
     if request.method == 'POST':
         name = request.form['name']
         email = request.form['email']
@@ -84,8 +109,6 @@ def bhaktgan():
         city = request.form['city']
         seva_interest = request.form['seva_interest']
 
-        conn = get_db_connection()
-        cursor = conn.cursor()
         cursor.execute("SELECT COUNT(*) FROM bhaktgan WHERE name=%s AND email=%s", (name, email))
 
         if cursor.fetchone()[0] > 0:
@@ -106,10 +129,12 @@ def bhaktgan():
             )
             mail.send(msg)
 
-        conn.close()
-        return render_template('bhaktgan.html', message=message)
+    cursor.execute("SELECT name, email, phone, seva_interest, city, submitted_at FROM bhaktgan ORDER BY id DESC")
+    bhakts = cursor.fetchall()
+    conn.close()
 
-    return render_template('bhaktgan.html')
+    return render_template('bhaktgan.html', message=message if request.method == 'POST' else None, bhaktgan=bhakts)
+
 
 # 📖 Wisdom Feed
 @app.route('/wisdom')

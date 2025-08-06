@@ -4,45 +4,97 @@
   <meta charset="UTF-8">
   <meta name="fast2sms" content="xe56XnE9nGrNB36enF2VFJ0Meceomd62">
   <title>Spiritual Website</title>
+
+  <!-- 📜 External Styles & Fonts -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari&display=swap" rel="stylesheet">
 </head>
 
 <body>
-  <!-- 🌿 Navigation Bar -->
-  <nav>
-    <div class="hamburger" onclick="toggleMenu()">☰</div>
+  <!-- Updated Header & Navigation -->
+  <header>
+    <nav class="navbar">
+      <button class="hamburger" onclick="toggleMenu()">☰</button>
+      <ul id="nav-links" class="nav-links hidden">
+         <li class="nav-item">
+        <a class="nav-link" href="#">मुख्य पृष्ठ</a>
+       <div class="dropdown">
+       <a href="/">मुख्य पृष्ठ</a>
+      </div>
+      </li>
+        
 
-    <ul id="nav-links" class="hidden">
-      <li><a href="/">मुख्य पृष्ठ</a></li>
-      <li><a href="{{ url_for('admin_dashboard') }}">🛠️ व्यवस्थापक</a></li>
-      <li><a href="/about">आमच्याविषयी</a></li>
-      <li><a href="/programs">कार्यक्रम</a></li>
-      <li><a href="/bhaktgan">भक्तगण नोंदणी</a></li>
-      <li><a href="/admin/bhaktgan">भक्तगण सूची 📋</a></li>
-      <li><a href="/wisdom">ज्ञान</a></li>
-      <li><a href="/contact">संपर्क</a></li>
-    </ul>
-  </nav>
+        <!-- 🎯 Updated Tooltip-Enabled Nav Item for admin -->
+        <li class="nav-item">
+        <a class="nav-link" href="#"> 🛠️ व्यवस्थापक</a>
+       <div class="dropdown">
+        <a href="{{ url_for('admin_dashboard') }}">🛠️ व्यवस्थापक नोंदणी</a>
+        </div>
+        </li>
 
-  <!-- 📋 Page-Specific Content -->
+       <!-- 🎯 Updated Tooltip-Enabled Nav Item for About -->
+        <li class="nav-item">
+        <a class="nav-link" href="#">आमच्याविषयी</a>
+       <div class="dropdown">
+       <a href="/about">आमच्याविषयी माहीती</a>
+      </div>
+      </li>
+
+        <!-- 🎯 Updated Tooltip-Enabled Nav Item -->
+        <li class="nav-item">
+        <a class="nav-link" href="#">दैनिक कार्यक्रम</a>
+       <div class="dropdown">
+       <a href="/programs">Sadguru Baba से दैनिक कार्यक्रम</a>
+      </div>
+      </li>
+        <!-- 🎯 Updated Tooltip-Enabled Nav Item for Bhaktgan -->
+        <li class="nav-item">
+        <a class="nav-link" href="#">भक्तगण</a>
+       <div class="dropdown">
+       <a href="/bhaktgan">भक्तगण नोंदणी</a>
+      </div>
+      </li>
+       <!-- Updated Tooltip-Enabled Nav Item for Bhaktgan List -->
+        <li class="nav-item">
+        <a class="nav-link" href="#">भक्तगण सूची</a>
+       <div class="dropdown">
+       <a href="/admin/bhaktgan">भक्तगण सूची 📋</a>
+      </div>
+      </li>
+        <!-- 🎯 Updated Tooltip-Enabled Nav Item for Wisdom -->
+        <li class="nav-item">
+        <a class="nav-link" href="#">ज्ञान</a>
+       <div class="dropdown">
+       <a href="/wisdom">ज्ञान</a>
+      </div>
+      </li>
+        <!-- 🎯 Updated Tooltip-Enabled Nav Item for Contact -->
+        <li class="nav-item">
+        <a class="nav-link" href="#">संपर्क</a>
+       <div class="dropdown">
+       <a href="/contact">संपर्क</a>
+      </div>
+      </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- 📋 Dynamic Page Content -->
   <main>
     {% block content %}{% endblock %}
   </main>
 
   <!-- 🪷 Footer -->
-  <footer>
+  <footer class="site-footer">
     <p>🌼 २०२५ Spiritual Website • Stay connected. Stay conscious.</p>
   </footer>
 
-  <!-- 📜 External JS for Hamburger + Filters -->
+  <!-- 📜 JavaScript -->
   <script src="{{ url_for('static', filename='JS/menu-toggle.js') }}"></script>
   <script>
     function filterTableBySeva() {
-      let input = document.getElementById("sevaInput").value.toLowerCase();
-      let rows = document.querySelectorAll("table tbody tr");
-
-      rows.forEach(row => {
+      const input = document.getElementById("sevaInput").value.toLowerCase();
+      document.querySelectorAll("table tbody tr").forEach(row => {
         const seva = row.cells[3].textContent.toLowerCase();
         row.style.display = seva.includes(input) ? "" : "none";
       });
