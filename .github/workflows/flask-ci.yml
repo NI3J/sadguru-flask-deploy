@@ -14,10 +14,14 @@ jobs:
         run: |
           sudo apt-get install git-lfs
           git lfs install
-          git lfs pull
 
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          lfs: true  # ✅ This ensures LFS files are fetched during checkout
+
+      - name: Pull LFS files
+        run: git lfs pull
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -28,7 +32,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          pip install pytest
 
       - name: Run tests
-        run: |
-          pytest
+        run: pytest
